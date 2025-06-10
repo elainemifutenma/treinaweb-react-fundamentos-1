@@ -3,7 +3,7 @@ import { ptBR } from 'date-fns/locale/pt-BR';
 import styles from './Tweet.module.css';
 
 export default function Tweet({ tweet }) {
-  const publishedToNew = formatDistanceToNow(new Date(tweet.date), {
+  const publishedToNew = formatDistanceToNow(tweet.date, {
     locale: ptBR,
     addSuffix: true,
   });
@@ -19,5 +19,8 @@ export default function Tweet({ tweet }) {
         {tweet.text}
       </div>
     </div>
-  )
+  )  
 }
+
+
+

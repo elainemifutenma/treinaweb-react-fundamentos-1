@@ -1,28 +1,49 @@
-//index.jsx como estáva
+/* eslint-disable no-unreachable */
+/* eslint-disable react/jsx-key */
 import TextInput from "../components/TextInput";
 import styles from "./Index.module.css";
-import Tweet from '../components/Tweet';
-import { useIndex } from '../data/hooks/pages/useIndex.page';
+import Tweet from "../components/Tweet";
+import { useState } from "react";
 
 export default function Index() {
-  const {
-    text,
-    onTextChange,
-    maxLength,
-    sendTweet,
-    sortedTweetList,
-  } = useIndex();
+  const [text, setText] = useState('');
+  const [tweetList, setTweetList] = useState([]);
+  const maxLength = 125;
+
+  const tweet = {
+    id: Date.now(),
+    date: new Date(),
+    text: text,
+    user:{
+      name: 'Elaine Mikie',
+      username: '@elainemikie',
+      picture: 'https://plus.unsplash.com/premium_photo-1739178656495-8109a8bc4f53?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    }
+  }
+
+  function onTextChange(event) {
+    const text = event.target.value;
+    if (text.length <= maxLength) {
+      setText(text);
+    }
+  }
+  
+  function sendTweet() {
+    setTweetList([...tweetList, tweet]);
+  }
 
   return (
     <div>
-      <h1 className={styles.pageTitle}>TreinaTweet</h1>
+      <h1 className={styles.pageTitle}>Posts</h1>
       <div className={styles.tweetContainer}>
         <img
-          src={'https://github.com/wesleygado.png'}
+          src={
+            "https://plus.unsplash.com/premium_photo-1739178656495-8109a8bc4f53?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          }
           className={styles.avatar}
         />
         <TextInput
-          placeholder={'O que está acontecendo?'}
+          placeholder={"O que está acontecendo?"}
           rows={3}
           maxLength={maxLength}
           value={text}
@@ -30,26 +51,28 @@ export default function Index() {
         />
       </div>
       <div className={styles.buttonContainer}>
-        <div>{text.length} / {maxLength}</div>
+        <div>
+          {text.length} / {maxLength}
+        </div>
         <button
           onClick={sendTweet}
           className={styles.postButton}
           disabled={text.length === 0}
         >
-          Tweetar
+          Postar
         </button>
       </div>
 
       <ul className={styles.tweetList}>
-        {sortedTweetList.map(tweet => {
+        {tweetList.map((tweet) => {
           return (
-            <li key={tweet.id} className={styles.tweetListItem}>
-              <Tweet tweet={tweet.data}
-              />
+            <li className={styles.tweetListItem} key={tweet.id}>
+              <Tweet tweet={tweet}/>
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
+  );
 }
+
