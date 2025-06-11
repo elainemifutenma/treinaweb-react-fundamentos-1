@@ -32,3 +32,23 @@
   grid-area: text;
   color: var(--primary-text);
 }
+
+/* Responsividade para celulares */
+@media (max-width: 600px) {
+  .tweetContainer {
+    /* Em telas menores, coloque tudo em uma única coluna */
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'avatar'
+      'user'
+      'text';
+    gap: 8px 0;
+    align-items: start;
+  }
+
+  .avatar {
+    justify-self: start;
+    width: 32px;
+    height: 32px;
+  }
+}
